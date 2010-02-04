@@ -1,0 +1,114 @@
+This version of Tremolo is derived from Tremolo library version 
+0.07. It has been patched against publicly known vulnerabilities 
+with sample files available here:
+
+ http://static.dataspill.org/releases/ogg/examples/
+
+When syncing with svn, please ensure that these defects are not 
+reintroduced.
+
+---------------------------------------------------------------------------
+
+This README covers the Tremolo library, version 0.07.
+
+Tremolo is a modified version of the Ogg Vorbis 'Tremor' integer
+playback codec, branching from 1.0.2 of the low memory branch of
+that source from svn.
+
+Tremolo is released under different licenses to Tremor.
+
+Tremor is released under a BSD like license (see the original README
+included below, and other documentation for an exact statement of
+its licensing terms).
+
+Tremolo is released under twin licenses.
+
+Firstly it is released under the GPL (v2) - this is so that fully
+GPLd software such as ScummVM may use it with no problems.
+
+Secondly it is released under a homebrew license of my own. If you
+want to use Tremolo in free(*) software, you may do so without
+charge. If you want to use Tremolo in non-free(*) software then
+you must contact me and come to an agreement first.
+
+* Free software, for the purposes of this definition is defined to
+be software that is given away for free to anyone, with no more than
+a nominal charge for media permitted.
+
+Software that comes bundled with hardware, or is tied to specific
+hardware is NOT free.
+
+Software given away only on magazine discs, or only to subscribers
+for another service is NOT free (though software which is given away
+to everyone clearly may be included on magazine discs or given to
+subscribers).
+
+Shareware is NOT free, but reasonably priced shareware will generally
+get permission to use it as it it was free by contacting me first.
+
+If in doubt about whether your software counts as 'free' or not,
+contact me. (In fact, contact me if you use the software in anything,
+it'd be nice to know!)
+
+I am not looking to make my fortune with this, but if (say) Apple
+wanted to put it in the firmware for an iPod, it'd be nice to get
+something for my efforts.
+
+I Am Not A Lawyer, so all this is probably horribly unclear. If
+anyone wants to hire me a lawyer for the afternoon, we can formalise
+it.
+
+Robin Watts
+
+tremolo@wss.co.uk
+
+----------------------------------------------------------------------
+
+
+
+This README covers the Ogg Vorbis 'Tremor' integer playback codec
+source as of date 2002 09 02, version 1.0.0.
+
+                            ******
+
+The C source in this package will build on any ANSI C compiler and
+function completely and properly on any platform.  The included build
+system assumes GNU build system and make tools (m4, automake,
+autoconf, libtool and gmake).  GCC is not required, although GCC is
+the most tested compiler.  To build using GNU tools, type in the
+source directory:
+
+./autogen.sh
+make
+
+Currently, the source implements playback in pure C on all platforms
+except ARM, where a [currently] small amount of assembly (see
+asm_arm.h) is used to implement 64 bit math operations and fast LSP
+computation.  If building on ARM without the benefit of GNU build
+system tools, be sure that '_ARM_ASSEM_' is #defined by the build
+system if this assembly is desired, else the resulting library will
+use whatever 64 bit math builtins the compiler implements.
+
+No math library is required by this source.  No floating point
+operations are used at any point in either setup or decode.  This
+decoder library will properly decode any past, current or future
+Vorbis I file or stream.
+
+                           ********
+
+The build system produces a static and [when supported by the OS]
+dynamic library named 'libvorbisidec'.  This library exposes an API
+nearly identical to the BSD reference library's 'libvorbisfile',
+including all the features familiar to users of vorbisfile.  This API
+is similar enough that the proper header file to include is named
+'ivorbisfile.h' [included in the source build directory].  Lower level
+libvorbis-style headers and structures are in 'ivorbiscodec.h'
+[included in the source build directory]. A simple example program,
+ivorbisfile_example.c, can be built with 'make example'.
+
+                           ********
+
+Detailed Tremor API Documentation begins at doc/index.html
+
+Monty
+xiph.org
