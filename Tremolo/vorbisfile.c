@@ -18,7 +18,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-//#include <errno.h>
+//#include <gerrno.h>
 #include <string.h>
 #include <math.h>
 
@@ -28,7 +28,7 @@
 #include "os.h"
 #include "misc.h"
 
-int errno;
+int gerrno;
 
 #define  NOTOPEN   0
 #define  PARTOPEN  1
@@ -69,12 +69,12 @@ int errno;
 
 /* read a little more data from the file/pipe into the ogg_sync framer */
 static long _get_data(OggVorbis_File *vf){
-  errno=0;
+  gerrno=0;
   if(vf->datasource){
     unsigned char *buffer=ogg_sync_bufferin(vf->oy,CHUNKSIZE);
     long bytes=(vf->callbacks.read_func)(buffer,1,CHUNKSIZE,vf->datasource);
     if(bytes>0)ogg_sync_wrote(vf->oy,bytes);
-    if(bytes==0 && errno)return -1;
+    if(bytes==0 && gerrno)return -1;
     return bytes;
   }else
     return 0;
