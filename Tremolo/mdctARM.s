@@ -954,7 +954,7 @@ mdct_bufferflies_loop3:
 	LDMFD	r13,{r0-r3}
 
 mdct_bitreverseARM:
-	@ r0 = points
+	@ r0 = points = n
 	@ r1 = in
 	@ r2 = step
 	@ r3 = shift
@@ -962,7 +962,6 @@ mdct_bitreverseARM:
 	MOV	r4, #0			@ r4 = bit = 0
 	ADD	r5, r1, r0, LSL #1	@ r5 = w = x + (n>>1)
 	ADR	r6, bitrev
-	SUB	r3, r3, #2		@ r3 = shift -= 2
 	SUB	r5, r5, #8
 brev_lp:
 	LDRB	r7, [r6, r4, LSR #6]
@@ -971,7 +970,8 @@ brev_lp:
 	ADD	r4, r4, #1		@ bit++
 	@ stall XScale
 	ORR	r7, r7, r8, LSL #6	@ r7 = bitrev[bit]
-	ADD	r9, r1, r7, LSR r3	@ r9 = xx = x + (b>>shift)
+	MOV	r7, r7, LSR r3
+	ADD	r9, r1, r7, LSL #2	@ r9 = xx = x + (b>>shift)
 	CMP	r5, r9			@ if (w > xx)
 	LDR	r10,[r5],#-8		@   r10 = w[0]		w -= 2
 	LDRGT	r11,[r5,#12]		@   r11 = w[1]
@@ -988,7 +988,7 @@ brev_lp:
 	@ r0 = points
 	@ r1 = in
 	@ r2 = step
-	@ r3 = shift-2
+	@ r3 = shift
 
 	CMP	r2, #4			@ r5 = T = (step>=4) ?
 	LDRGE	r5, =sincos_lookup0	@          sincos_lookup0 +

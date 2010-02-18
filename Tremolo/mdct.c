@@ -406,7 +406,7 @@ void mdct_backward(int n, DATA_TYPE *in){
   mdct_step8(in,n,step>>2);
 #else
   step = mdct_backwardARM(n, in);
-  if (step < 1)
+  if (step <= 1)
     mdct_step8(in,n,step);
 #endif
 }
