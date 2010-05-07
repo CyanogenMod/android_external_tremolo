@@ -176,7 +176,7 @@ void vorbis_info_clear(vorbis_info *vi){
 
 /* Header packing/unpacking ********************************************/
 
-static int _vorbis_unpack_info(vorbis_info *vi,oggpack_buffer *opb){
+int _vorbis_unpack_info(vorbis_info *vi,oggpack_buffer *opb){
   codec_setup_info     *ci=(codec_setup_info *)vi->codec_setup;
   if(!ci)return(OV_EFAULT);
 
@@ -213,7 +213,7 @@ static int _vorbis_unpack_info(vorbis_info *vi,oggpack_buffer *opb){
   return(OV_EBADHEADER);
 }
 
-static int _vorbis_unpack_comment(vorbis_comment *vc,oggpack_buffer *opb){
+int _vorbis_unpack_comment(vorbis_comment *vc,oggpack_buffer *opb){
   int i;
   int vendorlen=oggpack_read(opb,32);
   if(vendorlen<0)goto err_out;
@@ -241,7 +241,7 @@ static int _vorbis_unpack_comment(vorbis_comment *vc,oggpack_buffer *opb){
 
 /* all of the real encoding details are here.  The modes, books,
    everything */
-static int _vorbis_unpack_books(vorbis_info *vi,oggpack_buffer *opb){
+int _vorbis_unpack_books(vorbis_info *vi,oggpack_buffer *opb){
   codec_setup_info     *ci=(codec_setup_info *)vi->codec_setup;
   int i;
   if(!ci)return(OV_EFAULT);

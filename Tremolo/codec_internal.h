@@ -113,7 +113,7 @@ typedef struct{
 } floor1class;
 
 typedef struct{
-  floor1class  *class;          /* [VIF_CLASS] */
+  floor1class  *klass;          /* [VIF_CLASS] */
   char         *partitionclass; /* [VIF_PARTS]; 0 to 15 */
   ogg_uint16_t *postlist;       /* [VIF_POSIT+2]; first two implicit */
   char         *forward_index;  /* [VIF_POSIT+2]; */
