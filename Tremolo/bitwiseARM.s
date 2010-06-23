@@ -169,7 +169,7 @@ oggpack_adv:
 	ADDLE	r12,r12,#32
 	ADDLE	r3,r3,#4
 	STMIA	r0,{r2,r3,r12}
-	MOV	PC,R14
+	BX      LR
 adv_slow:
 	STMFD	r13!,{r10,r14}
 
@@ -227,7 +227,7 @@ oggpack_readinit:
 	RSB	r3,r3,#32		@ r3 = BitsInWord
 	STMIA	r0,{r1,r2,r3}
 	STR	r12,[r0,#20]
-	MOV	PC,R14
+	BX      LR
 
 oggpack_read:
 	@ r0 = oggpack_buffer *b
