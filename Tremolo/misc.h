@@ -66,6 +66,7 @@ extern void _VDBG_free(void *ptr,char *file,long line);
 #ifndef  _LOW_ACCURACY_
 /* 64 bit multiply */
 
+#include <endian.h>
 #include <sys/types.h>
 
 #if BYTE_ORDER==LITTLE_ENDIAN
