@@ -28,7 +28,12 @@ else
 LOCAL_CFLAGS += \
     -DONLY_C
 endif
+ifeq ($(findstring -O, $(TARGET_GLOBAL_CFLAGS)),)
 LOCAL_CFLAGS+= -O2
+endif
+
+# Workaround for linaro-gcc bug 913528/upstream gcc bug 51794
+LOCAL_CFLAGS+=$(call cc-option -fno-modulo-sched)
 
 LOCAL_C_INCLUDES:= \
 	$(LOCAL_PATH)/Tremolo
