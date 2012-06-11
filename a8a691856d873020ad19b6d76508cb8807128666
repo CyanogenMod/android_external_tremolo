@@ -1,0 +1,9 @@
+Change-Id: Ia8a691856d873020ad19b6d76508cb8807128666
+Code-Review+2: Ricardo Cerqueira <cyanogenmod@cerqueira.org>
+Verified+1: Ricardo Cerqueira <cyanogenmod@cerqueira.org>
+Code-Review+1: Bernhard Rosenkraenzer <Bernhard.Rosenkranzer@linaro.org>
+Submitted-by: Ricardo Cerqueira <cyanogenmod@cerqueira.org>
+Submitted-at: Mon, 11 Jun 2012 04:17:12 +0400
+Reviewed-on: http://review.cyanogenmod.com/17377
+Project: CyanogenMod/android_external_tremolo
+Branch: refs/heads/ics
