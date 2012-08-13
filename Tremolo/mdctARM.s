@@ -310,7 +310,9 @@ find_shift_loop:
 	ADD	r4, r1, r0, LSL #1	@ r4 = aX = in+(n>>1)
 	ADD	r14,r1, r0		@ r14= in+(n>>2)
 	SUB	r4, r4, #3*4		@ r4 = aX = in+n2-3
-	LDR	r5, =sincos_lookup0	@ r5 = T=sincos_lookup0
+	ADRL	r7, .Lsincos_lookup
+	LDR	r5, [r7]		@ r5 = T=sincos_lookup0
+	ADD	r5, r7
 
 presymmetry_loop1:
 	LDR	r7, [r4,#8]		@ r6 = s2 = aX[2]
@@ -365,7 +367,9 @@ presymmetry_loop2:
 	@ r2 = step
 	@ r3 = shift
 	STMFD	r13!,{r3}
-	LDR	r5, =sincos_lookup0	@ r5 = T=sincos_lookup0
+	ADRL	r4, .Lsincos_lookup
+	LDR	r5, [r4]		@ r5 = T=sincos_lookup0
+	ADD	r5, r4
 	ADD	r4, r1, r0, LSL #1	@ r4 = aX = in+(n>>1)
 	SUB	r4, r4, #4*4		@ r4 = aX = in+(n>>1)-4
 	LDR	r11,[r5,#4]		@ r11= T[1]
@@ -422,8 +426,10 @@ presymmetry_loop3:
 	@ r2 = i
 	@ r3 = shift
 	STMFD	r13!,{r0-r1}
+	ADRL	r4, .Lsincos_lookup
+	LDR	r5, [r4]
+	ADD	r5, r4
 	RSBS	r4,r3,#6		@ r4 = stages = 7-shift then --stages
-	LDR	r5,=sincos_lookup0
 	BLE	no_generics
 	MOV	r14,#4			@ r14= 4               (i=0)
 	MOV	r6, r14,LSL r3		@ r6 = (4<<i)<<shift
@@ -1022,8 +1028,10 @@ brev_lp:
 	@ r3 = shift
 
 	CMP	r2, #4			@ r5 = T = (step>=4) ?
-	LDRGE	r5, =sincos_lookup0	@          sincos_lookup0 +
-	LDRLT	r5, =sincos_lookup1	@          sincos_lookup0 +
+	ADR	r7, .Lsincos_lookup	@          sincos_lookup0 +
+	ADDLT	r7, #4			@          sincos_lookup1
+	LDR	r5, [r7]
+	ADD	r5, r7
 	ADD	r7, r1, r0, LSL #1	@ r7 = w1 = x + (n>>1)
 	ADDGE	r5, r5, r2, LSL #1	@		            (step>>1)
 	ADD	r8, r5, #1024*4		@ r8 = Ttop
@@ -1114,8 +1122,10 @@ step7_loop2:
 
 	@ step > 1 (default case)
 	CMP	r2, #4			@ r5 = T = (step>=4) ?
-	LDRGE	r5, =sincos_lookup0	@          sincos_lookup0 +
-	LDRLT	r5, =sincos_lookup1	@          sincos_lookup1
+	ADR	r7, .Lsincos_lookup	@          sincos_lookup0 +
+	ADDLT	r7, #4			@          sincos_lookup1
+	LDR	r5, [r7]
+	ADD	r5, r7
 	ADD	r7, r1, r0, LSL #1	@ r7 = iX = x + (n>>1)
 	ADDGE	r5, r5, r2, LSL #1	@		            (step>>1)
 mdct_step8_default:
@@ -1214,5 +1224,9 @@ bitrev:
 	.byte	47
 	.byte	31
 	.byte	63
+
+.Lsincos_lookup:
+	.word	sincos_lookup0-.Lsincos_lookup
+	.word	sincos_lookup1-(.Lsincos_lookup+4)
 
 	@ END

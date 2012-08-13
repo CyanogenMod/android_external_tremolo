@@ -454,7 +454,9 @@ _checksum:
 	@ r1 = bytes
 	STMFD	r13!,{r5-r6,r14}
 
-	LDR	r5,=crc_lookup
+	ADR	r6,.Lcrc_lookup
+	LDR	r5,[r6]
+	ADD	r5,r6
 	MOV	r14,#0			@ r14= crc_reg = 0
 	MOVS	r12,r0
 	BEQ	_cs_end
@@ -486,5 +488,8 @@ _cs_no_bytes:
 _cs_end:
 	MOV	r0,r14
 	LDMFD	r13!,{r5-r6,PC}
+
+.Lcrc_lookup:
+        .WORD   crc_lookup-.Lcrc_lookup
 
 	@ END
