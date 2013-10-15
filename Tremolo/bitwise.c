@@ -187,7 +187,7 @@ void oggpack_readinit(oggpack_buffer *b,ogg_reference *r){
 
   b->tail=b->head=r;
   b->count=0;
-  if (b->head) {
+  if (b->head && r->length) {
     b->headptr=b->head->buffer->data+b->head->begin;
     b->headend=b->head->length;
   } else {
@@ -216,6 +216,8 @@ long oggpack_look(oggpack_buffer *b,int bits){
   unsigned long m=mask[bits];
   unsigned long ret = 0;
   int BITS = bits;
+
+  if (!b->headptr) return 0;
 
   bits+=b->headbit;
 
