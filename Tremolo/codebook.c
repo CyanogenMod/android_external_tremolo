@@ -608,6 +608,7 @@ int vorbis_book_unpack(oggpack_buffer *opb,codebook *s){
 
   if(oggpack_eop(opb))goto _eofout;
 
+  free(lengthlist);
   return 0;
  _errout:
  _eofout:
