@@ -224,8 +224,8 @@ long oggpack_look(oggpack_buffer *b,int bits){
     unsigned char *ptr=b->headptr;
     ogg_reference *head=b->head;
 
-    if(end<0)return -1;
-    if (!head || !end)return -1;
+    if(end<0)return 0;
+    if (!head || !end)return 0;
 
     if(bits){
       _lookspan();
