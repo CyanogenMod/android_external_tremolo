@@ -44,6 +44,7 @@
 	.extern	oggpack_look
 	.extern	oggpack_eop
 	.extern	crc_lookup
+	.hidden	crc_lookup
 
 decode_packed_entry_number_REALSTART:
 dpen_nobits:
