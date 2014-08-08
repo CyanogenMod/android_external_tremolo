@@ -45,6 +45,8 @@
 
 	.extern	sincos_lookup0
 	.extern	sincos_lookup1
+	.hidden	sincos_lookup0
+	.hidden	sincos_lookup1
 
 mdct_unroll_prelap:
 	@ r0 = out
