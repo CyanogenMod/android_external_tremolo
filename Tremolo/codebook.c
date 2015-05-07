@@ -507,13 +507,12 @@ int vorbis_book_unpack(oggpack_buffer *opb,codebook *s){
 	/* use dec_type 1: vector of packed values */
 
 	/* need quantized values before  */
-	s->q_val=alloca(sizeof(ogg_uint16_t)*quantvals);
+	s->q_val=calloc(sizeof(ogg_uint16_t), quantvals);
 	if (!s->q_val) goto _eofout;
 	for(i=0;i<quantvals;i++)
 	  ((ogg_uint16_t *)s->q_val)[i]=(ogg_uint16_t)oggpack_read(opb,s->q_bits);
 
 	if(oggpack_eop(opb)){
-	  s->q_val=0; /* cleanup must not free alloca memory */
 	  goto _eofout;
 	}
 
@@ -523,12 +522,11 @@ int vorbis_book_unpack(oggpack_buffer *opb,codebook *s){
 	s->dec_leafw=_determine_leaf_words(s->dec_nodeb,
 					   (s->q_bits*s->dim+8)/8);
 	if(_make_decode_table(s,lengthlist,quantvals,opb,maptype)){
-	  s->q_val=0; /* cleanup must not free alloca memory */
 	  goto _errout;
 	}
 
-	s->q_val=0; /* about to go out of scope; _make_decode_table
-                       was using it */
+	free(s->q_val);
+	s->q_val=0;
 
       }else{
 	/* use dec_type 2: packed vector of column offsets */
@@ -619,6 +617,7 @@ int vorbis_book_unpack(oggpack_buffer *opb,codebook *s){
  _eofout:
   vorbis_book_clear(s);
   free(lengthlist);
+  free(s->q_val);
   return -1;
 }
 
