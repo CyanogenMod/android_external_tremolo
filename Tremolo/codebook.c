@@ -210,6 +210,20 @@ static int _make_words(char *l,long n,ogg_uint32_t *r,long quantvals,
     }
   }
 
+  // following sanity check copied from libvorbis
+  /* sanity check the huffman tree; an underpopulated tree must be
+     rejected. The only exception is the one-node pseudo-nil tree,
+     which appears to be underpopulated because the tree doesn't
+     really exist; there's only one possible 'codeword' or zero bits,
+     but the above tree-gen code doesn't mark that. */
+  if(b->used_entries != 1){
+    for(i=1;i<33;i++)
+      if(marker[i] & (0xffffffffUL>>(32-i))){
+          return 1;
+      }
+  }
+
+
   return 0;
 }
 
