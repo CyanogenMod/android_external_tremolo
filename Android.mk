@@ -25,7 +25,7 @@ LOCAL_SRC_FILES += \
 LOCAL_CFLAGS += \
     -D_ARM_ASSEM_
 # Assembly code in asm_arm.h does not compile with Clang.
-LOCAL_CLANG_ASFLAGS += \
+LOCAL_CLANG_ASFLAGS_arm += \
     -no-integrated-as
 else
 LOCAL_CFLAGS += \
