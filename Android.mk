@@ -16,21 +16,22 @@ LOCAL_SRC_FILES = \
 	Tremolo/treminfo.c \
 	Tremolo/vorbisfile.c
 
-ifeq ($(TARGET_ARCH),arm)
-LOCAL_SRC_FILES += \
+LOCAL_SRC_FILES_arm += \
 	Tremolo/bitwiseARM.s \
 	Tremolo/dpen.s \
 	Tremolo/floor1ARM.s \
 	Tremolo/mdctARM.s
-LOCAL_CFLAGS += \
+LOCAL_CFLAGS_arm += \
     -D_ARM_ASSEM_
 # Assembly code in asm_arm.h does not compile with Clang.
 LOCAL_CLANG_ASFLAGS_arm += \
     -no-integrated-as
-else
-LOCAL_CFLAGS += \
-    -DONLY_C
-endif
+LOCAL_CFLAGS_arm64 += -DONLY_C
+LOCAL_CFLAGS_mips += -DONLY_C
+LOCAL_CFLAGS_mips64 += -DONLY_C
+LOCAL_CFLAGS_x86 += -DONLY_C
+LOCAL_CFLAGS_x86_64 += -DONLY_C
+
 LOCAL_CFLAGS+= -O2
 
 LOCAL_C_INCLUDES:= \
